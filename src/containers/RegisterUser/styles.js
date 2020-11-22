@@ -5,8 +5,7 @@ export const styles = StyleSheet.create({
       flex: 1, 
       backgroundColor: '#142444', 
       alignItems: 'center', 
-      justifyContent: 'center',
-      width: '100%',
+      justifyContent: 'center'
     },
     logoContainer: {
       flex: 2, 
@@ -15,13 +14,13 @@ export const styles = StyleSheet.create({
       justifyContent: 'center'
     },
     textInputContainer: {
-      flex: 4, 
+      flex: 8, 
       alignSelf: 'stretch', 
       alignItems: 'center', 
       justifyContent: 'flex-end'
     },
     buttonLoginContainer: {
-      flex: 4, 
+      flex: 2, 
       alignSelf: 'stretch', 
       alignItems: 'center', 
       justifyContent: 'flex-end', 

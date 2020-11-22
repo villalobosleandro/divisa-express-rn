@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
-import { View, Image } from 'react-native';
+import { View, Image, Text, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { Input, Icon, Button } from 'react-native-elements';
 import Toast from 'react-native-simple-toast';
+import Modal from 'react-native-modal';
+import axios from 'axios';
+import Spinner from 'react-native-spinkit';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import { styles } from './styles';
 
 export const Login = props => {
-  const [username, setUsername] = useState('mail@mail.com');
-  const [password, setPassword] = useState('asd123');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const validateEmail = (email) => {
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -28,67 +34,140 @@ export const Login = props => {
   };
 
   const _login = () => {
-    if(username === 'mail@mail.com' && password === 'asd123') {
-      console.log('todo bien');
-      props.navigation.navigate('Home')
-    }else {
-      Toast.show(`Error Authentication username or password invalid.`, Toast.LONG);
-    }
+    setLoading(true);
+    const data = {
+      usernameEmail: username, 
+      password: password
+    };
+
+    axios({
+        method: 'put',
+        timeout: 1000,
+        url: 'http://web.dev10.codecraftdev.com/api/v1/login',
+        data: data,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    })
+    .then(response => {
+        if(response.status === 202) { //si el usuario o contraseña estan mal
+          Toast.show(response.data.error, Toast.LONG);
+        }else if(response.status === 200 &&  response.data.userLogged) { // si todo esta bien
+          AsyncStorage.setItem('userId', response.data._id)
+          props.navigation.navigate('Home')
+          
+        }
+        setLoading(false);
+    })
+    .catch(error => {
+        setLoading(false);
+        Toast.show(`Error ${error}`, Toast.LONG);
+    })
+    // if(username === 'mail@mail.com' && password === 'asd123') {
+    //   props.navigation.navigate('Home')
+    // }else {
+    //   Toast.show(`Error Authentication username or password invalid.`, Toast.LONG);
+    // }
   }
 
   return(
     <View style={styles.container}>
-      <View style={styles.logoContainer}>
-        <Image
-          source={require('./../../assets/images/logo.png')}
-          style={{width: 200, height: 100}}
-          resizeMode={'cover'}
-        />        
-      </View>
+      {
+        loading && 
+        <View style={styles.container}>
+          <Spinner isVisible={loading} size={50} type={'ChasingDots'} color={'#0484a4'}/>
+        </View>
+        
+      }
 
-      <View style={styles.textInputContainer}>
-        <Input
-          placeholder='Email'
-          value={username}
-          inputStyle={{color: '#fff'}}
-          onChangeText={username => setUsername(username)}
-          leftIcon={
-            <Icon
-              name='email'
-              type={'material-community'}
-              size={24}
-              color='#fff'
+      {
+        !loading &&
+        <KeyboardAvoidingView style={styles.container}>
+          <View style={{alignSelf: 'stretch', alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, height: 80}}>
+            <Image
+              style={{width: 80, height: 90}}
+              source={require('./../../assets/images/logo3.png')}
+              resizeMode={'contain'}
             />
-          }
-        />
-
-        <Input
-          placeholder='Password'
-          value={password}
-          inputStyle={{color: '#fff'}}
-          onChangeText={password => setPassword(password)}
-          secureTextEntry={true}
-          leftIcon={
+            
             <Icon
-              name='lock'
+              name={'menu'}
               type={'material-community'}
-              size={24}
-              color='#fff'
+              color={'#0484a4'}
+              size={30}
+              onPress={() => {
+                setModalVisible(!modalVisible)
+              }}
             />
-          }
-        />
-      </View>
+            
+          </View>
 
-      <View style={styles.buttonLoginContainer}>
-        <Button
-          title="L O G I N"
-          type="outline"
-          containerStyle={{width: 300}}
-          buttonStyle={{borderColor: '#fff'}}
-          titleStyle={{color: '#fff'}}
-          onPress={() => CheckTextInputIsEmptyOrNot()}
-        />
-      </View>
+          <View style={styles.textInputContainer}>
+            <Input
+              placeholder='Email'
+              // value={username}
+              inputStyle={{color: '#fff'}}
+              onChangeText={username => setUsername(username)}
+              leftIcon={
+                <Icon
+                  name='email'
+                  type={'material-community'}
+                  size={24}
+                  color='#fff'
+                />
+              }
+            />
+
+            <Input
+              placeholder='Password'
+              // value={password}
+              inputStyle={{color: '#fff'}}
+              onChangeText={password => setPassword(password)}
+              secureTextEntry={true}
+              leftIcon={
+                <Icon
+                  name='lock'
+                  type={'material-community'}
+                  size={24}
+                  color='#fff'
+                />
+              }
+            />
+          </View>
+
+          <View style={styles.buttonLoginContainer}>
+            <Button
+              title="L O G I N"
+              type="outline"
+              containerStyle={{width: 300}}
+              buttonStyle={{borderColor: '#fff'}}
+              titleStyle={{color: '#fff'}}
+              onPress={() => CheckTextInputIsEmptyOrNot()}
+            />
+          </View>
+
+          <Modal 
+            isVisible={modalVisible}
+            onBackdropPress={() => setModalVisible(!modalVisible)}
+            onBackButtonPress={() => setModalVisible(!modalVisible)}
+            backdropOpacity={0.4}
+          >
+            <TouchableOpacity 
+              style={{ backgroundColor: '#fff', height: 60, width: 200, 
+                position: 'absolute', right: 15, top: 40, alignItems: 'center', 
+                justifyContent: 'center', borderRadius: 20,
+              }}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+                props.navigation.navigate('RegisterUser');
+              }}
+            >
+                <Text style={{fontWeight: 'bold', fontSize: 20}}>Register User</Text>
+            </TouchableOpacity>
+          </Modal>
+        </KeyboardAvoidingView>
+      }
+
     </View>
   );
 }
