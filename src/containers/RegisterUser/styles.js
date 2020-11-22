@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
       flex: 8, 
       alignSelf: 'stretch', 
       alignItems: 'center', 
-      justifyContent: 'flex-end'
+      justifyContent: 'space-around'
     },
     buttonLoginContainer: {
       flex: 2, 

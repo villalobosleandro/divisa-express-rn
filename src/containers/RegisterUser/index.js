@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, Image, Text, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
-import { Input, Icon, Button } from 'react-native-elements';
+import { View, Image, Text, TouchableOpacity, KeyboardAvoidingView, TextInput } from 'react-native';
+import { Icon, Button } from 'react-native-elements';
 import Toast from 'react-native-simple-toast';
 import Modal from 'react-native-modal';
 import Spinner from 'react-native-spinkit';
 import axios from 'axios';
+import {Picker} from '@react-native-picker/picker';
 
 import { styles } from './styles';
 
@@ -17,6 +18,7 @@ export const RegisterUser = props => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const [govIdType, setGovIdType] = useState('cedula');
 
   const CheckTextInputIsEmptyOrNot = () => {
     if (password === '' || username === '' || firstName === '' || lastName === '' || govId === '' || email === '') {
@@ -35,7 +37,8 @@ export const RegisterUser = props => {
       govId: govId, 
       email: email, 
       username: username, 
-      password: password
+      password: password,
+      govIdType: govIdType
     };
       axios({
           method: 'put',
@@ -61,6 +64,19 @@ export const RegisterUser = props => {
 
   }
 
+  const _validateNumberOfIdentity = () => {
+    switch(govIdType){
+      case 'cedula':
+        return 8;
+
+      case 'rif':
+        return 9;
+
+      case 'pasaporte':
+        return 7;
+    }
+  }
+
   return(
     <View style={styles.container}>
 
@@ -71,7 +87,10 @@ export const RegisterUser = props => {
 
       {
         !loading &&
-        <KeyboardAvoidingView>
+        <KeyboardAvoidingView style={{flex: 1,
+          alignItems: 'center', 
+          justifyContent: 'center',
+          width: '100%',}}>
 
           <View style={{alignSelf: 'stretch', alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, height: 80}}>
             <Image
@@ -83,7 +102,8 @@ export const RegisterUser = props => {
             <Icon
               name={'menu'}
               type={'material-community'}
-              color={'#0484a4'}
+              // color={'#0484a4'}
+              color={'#fff'}
               size={30}
               onPress={() => {
                 setModalVisible(!modalVisible)
@@ -93,45 +113,68 @@ export const RegisterUser = props => {
           </View>
 
           <View style={styles.textInputContainer}>
+
+            <View style={{flexDirection: 'row', borderBottomWidth: 2, borderBottomColor: '#fff'}}>
+                <Picker
+                  selectedValue={govIdType}
+                  style={{height: 50, width: 100, color: '#fff'}}
+                  onValueChange={(itemValue, itemIndex) =>{
+                      setGovIdType(itemValue);
+                      setGovId('');
+                    }
+                  }>
+                  <Picker.Item label="V - Cedula" value="cedula" color={'#000'}/>
+                  <Picker.Item label="J - RIF" value="rif" color={'#000'}/>
+                  <Picker.Item label="E - Extranjero" value="pasaporte" color={'#000'}/>
+                </Picker>
+
+                <TextInput
+                  placeholder='Number of identity'
+                  placeholderTextColor={'#fff'}
+                  style={{ height: 50, width: 250, color: '#fff', paddingHorizontal: 10 }}
+                  onChangeText={govId => setGovId(govId)}
+                  keyboardType={'numeric'}
+                  maxLength={_validateNumberOfIdentity()}
+                  value={govId}
+                />
+            </View>
             
-            <Input
+            <TextInput
                 placeholder='First Name'
-                inputStyle={{color: '#fff'}}
+                placeholderTextColor={'#fff'}
+                style={{ height: 50, width: 350, color: '#fff', paddingHorizontal: 10, borderBottomWidth: 2, borderBottomColor: '#fff' }}
                 onChangeText={firstName => setFirstName(firstName)}
                 // value={firstName}
               />
 
-              <Input
+              <TextInput
                 placeholder='Last Name'
-                inputStyle={{color: '#fff'}}
+                placeholderTextColor={'#fff'}
+                style={{ height: 50, width: 350, color: '#fff', paddingHorizontal: 10, borderBottomWidth: 2, borderBottomColor: '#fff' }}
                 onChangeText={lastName => setLastName(lastName)}
                 // value={lastName}
               />
-
-              <Input
-                placeholder='Number of identity'
-                inputStyle={{color: '#fff'}}
-                onChangeText={govId => setGovId(govId)}
-                // value={govId}
-              />
               
-              <Input
+              <TextInput
                 placeholder='Email'
-                inputStyle={{color: '#fff'}}
+                placeholderTextColor={'#fff'}
+                style={{ height: 50, width: 350, color: '#fff', paddingHorizontal: 10, borderBottomWidth: 2, borderBottomColor: '#fff' }}
                 onChangeText={email => setEmail(email)}
                 // value={email}
               />
 
-            <Input
+              <TextInput
                 placeholder='Username'
-                inputStyle={{color: '#fff'}}
+                placeholderTextColor={'#fff'}
+                style={{ height: 50, width: 350, color: '#fff', paddingHorizontal: 10, borderBottomWidth: 2, borderBottomColor: '#fff' }}
                 onChangeText={username => setUsername(username)}
                 // value={username}
               />
 
-              <Input
+              <TextInput
                 placeholder='Password'
-                inputStyle={{color: '#fff'}}
+                placeholderTextColor={'#fff'}
+                style={{ height: 50, width: 350, color: '#fff', paddingHorizontal: 10, borderBottomWidth: 2, borderBottomColor: '#fff' }}
                 onChangeText={password => setPassword(password)}
                 secureTextEntry={true}
                 // value={password}

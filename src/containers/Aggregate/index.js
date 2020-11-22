@@ -61,6 +61,19 @@ export const Aggregate = props => {
     })
   };
 
+  const _validateNumberOfIdentity = () => {
+    switch(govIdType){
+      case 'cedula':
+        return 8;
+
+      case 'rif':
+        return 9;
+
+      case 'pasaporte':
+        return 7;
+    }
+  }
+
   // console.log('agegate ', props);
 
   return(
@@ -75,7 +88,6 @@ export const Aggregate = props => {
         !loading &&
         <View>
           <Header
-            // props={props}
             navigation={props.navigation}
           />
 
@@ -112,7 +124,6 @@ export const Aggregate = props => {
               <TextInput
                 style={{ height: 50, borderColor: '#0484a4', borderWidth: 3, borderRadius: 20, color: '#fff', paddingHorizontal: 10 }}
                 onChangeText={fullName => setFullName(fullName)}
-                
               />
             </View>
 
@@ -133,6 +144,7 @@ export const Aggregate = props => {
                   style={{ height: 50, borderColor: '#0484a4', borderWidth: 3, borderRadius: 20, width: 250, color: '#fff', paddingHorizontal: 10 }}
                   onChangeText={govId => setGovId(govId)}
                   keyboardType={'numeric'}
+                  maxLength={_validateNumberOfIdentity()}
                   
                 />
               </View>

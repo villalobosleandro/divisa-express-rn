@@ -18,7 +18,8 @@ export const Header = props => {
           <Icon
             name={'home'}
             type={'material-community'}
-            color={'#0484a4'}
+            // color={'#0484a4'}
+            color={'#fff'}
             size={30}
             onPress={() => navigation.navigate('Home')}
           />

@@ -93,7 +93,8 @@ export const Login = props => {
             <Icon
               name={'menu'}
               type={'material-community'}
-              color={'#0484a4'}
+              // color={'#0484a4'}
+              color={'#fff'}
               size={30}
               onPress={() => {
                 setModalVisible(!modalVisible)
