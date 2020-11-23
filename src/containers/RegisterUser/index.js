@@ -129,7 +129,7 @@ export const RegisterUser = props => {
                 </Picker>
 
                 <TextInput
-                  placeholder='Number of identity'
+                  placeholder='Numero de indentificacion'
                   placeholderTextColor={'#fff'}
                   style={{ height: 50, width: 250, color: '#fff', paddingHorizontal: 10 }}
                   onChangeText={govId => setGovId(govId)}
@@ -141,7 +141,7 @@ export const RegisterUser = props => {
             </View>
 
             <TextInput
-                placeholder='First Name'
+                placeholder='Nombre'
                 placeholderTextColor={'#fff'}
                 style={{ height: 50, width: 350, color: '#fff', paddingHorizontal: 10, borderBottomWidth: 2, borderBottomColor: '#fff' }}
                 onChangeText={firstName => setFirstName(firstName)}
@@ -150,7 +150,7 @@ export const RegisterUser = props => {
               />
 
               <TextInput
-                placeholder='Last Name'
+                placeholder='Apellido'
                 placeholderTextColor={'#fff'}
                 style={{ height: 50, width: 350, color: '#fff', paddingHorizontal: 10, borderBottomWidth: 2, borderBottomColor: '#fff' }}
                 onChangeText={lastName => setLastName(lastName)}
@@ -159,7 +159,7 @@ export const RegisterUser = props => {
               />
 
               <TextInput
-                placeholder='Email'
+                placeholder='Correo electronico'
                 placeholderTextColor={'#fff'}
                 style={{ height: 50, width: 350, color: '#fff', paddingHorizontal: 10, borderBottomWidth: 2, borderBottomColor: '#fff' }}
                 onChangeText={email => setEmail(email)}
@@ -168,7 +168,7 @@ export const RegisterUser = props => {
               />
 
               <TextInput
-                placeholder='Username'
+                placeholder='Usuario'
                 placeholderTextColor={'#fff'}
                 style={{ height: 50, width: 350, color: '#fff', paddingHorizontal: 10, borderBottomWidth: 2, borderBottomColor: '#fff' }}
                 onChangeText={username => setUsername(username)}
@@ -177,7 +177,7 @@ export const RegisterUser = props => {
               />
 
               <TextInput
-                placeholder='Password'
+                placeholder='Contraseña'
                 placeholderTextColor={'#fff'}
                 style={{ height: 50, width: 350, color: '#fff', paddingHorizontal: 10, borderBottomWidth: 2, borderBottomColor: '#fff' }}
                 onChangeText={password => setPassword(password)}

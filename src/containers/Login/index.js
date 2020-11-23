@@ -96,7 +96,7 @@ export const Login = props => {
 
           <View style={styles.textInputContainer}>
             <Input
-              placeholder='Email'
+              placeholder='Correo o usuario'
               // value={username}
               inputStyle={{color: '#fff'}}
               onChangeText={username => setUsername(username)}
@@ -112,7 +112,7 @@ export const Login = props => {
             />
 
             <Input
-              placeholder='Password'
+              placeholder='Contraseña'
               // value={password}
               inputStyle={{color: '#fff'}}
               onChangeText={password => setPassword(password)}
@@ -156,7 +156,7 @@ export const Login = props => {
                 props.navigation.navigate('RegisterUser');
               }}
             >
-                <Text style={{fontWeight: 'bold', fontSize: 20}}>Register User</Text>
+                <Text style={{fontWeight: 'bold', fontSize: 20}}>Registrar Usuario</Text>
             </TouchableOpacity>
           </Modal>
         </KeyboardAvoidingView>
