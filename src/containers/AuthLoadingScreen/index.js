@@ -32,10 +32,10 @@ export const AuthLoadingScreen = props => {
     };
 
     return (
-        <View style={styles.container}>
+        <View style={{alignItems: 'center', justifyContent: 'center', flex: 1, backgroundColor: '#142444'}}>
             {
                 loading &&
-                <Spinner isVisible={loading} size={50} type={'ChasingDots'} color={'#0484a4'}/>
+                <Spinner isVisible={loading} size={50} type={'ChasingDots'} color={'#fff'}/>
             }
         </View>
     )

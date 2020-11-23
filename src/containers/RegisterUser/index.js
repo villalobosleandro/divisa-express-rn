@@ -33,10 +33,10 @@ export const RegisterUser = props => {
     setLoading(true);
     const data = {
       name: firstName,
-      lastName: lastName, 
-      govId: govId, 
-      email: email, 
-      username: username, 
+      lastName: lastName,
+      govId: govId,
+      email: email,
+      username: username,
       password: password,
       govIdType: govIdType
     };
@@ -81,14 +81,14 @@ export const RegisterUser = props => {
     <View style={styles.container}>
 
       {
-        loading && 
+        loading &&
         <Spinner isVisible={loading} size={50} type={'ChasingDots'} color={'#0484a4'}/>
       }
 
       {
         !loading &&
         <KeyboardAvoidingView style={{flex: 1,
-          alignItems: 'center', 
+          alignItems: 'center',
           justifyContent: 'center',
           width: '100%',}}>
 
@@ -98,7 +98,7 @@ export const RegisterUser = props => {
               source={require('./../../assets/images/logo3.png')}
               resizeMode={'contain'}
             />
-            
+
             <Icon
               name={'menu'}
               type={'material-community'}
@@ -109,7 +109,7 @@ export const RegisterUser = props => {
                 setModalVisible(!modalVisible)
               }}
             />
-            
+
           </View>
 
           <View style={styles.textInputContainer}>
@@ -134,16 +134,18 @@ export const RegisterUser = props => {
                   style={{ height: 50, width: 250, color: '#fff', paddingHorizontal: 10 }}
                   onChangeText={govId => setGovId(govId)}
                   keyboardType={'numeric'}
+                  autoCapitalize={'none'}
                   maxLength={_validateNumberOfIdentity()}
                   value={govId}
                 />
             </View>
-            
+
             <TextInput
                 placeholder='First Name'
                 placeholderTextColor={'#fff'}
                 style={{ height: 50, width: 350, color: '#fff', paddingHorizontal: 10, borderBottomWidth: 2, borderBottomColor: '#fff' }}
                 onChangeText={firstName => setFirstName(firstName)}
+                autoCapitalize={'none'}
                 // value={firstName}
               />
 
@@ -152,14 +154,16 @@ export const RegisterUser = props => {
                 placeholderTextColor={'#fff'}
                 style={{ height: 50, width: 350, color: '#fff', paddingHorizontal: 10, borderBottomWidth: 2, borderBottomColor: '#fff' }}
                 onChangeText={lastName => setLastName(lastName)}
+                autoCapitalize={'none'}
                 // value={lastName}
               />
-              
+
               <TextInput
                 placeholder='Email'
                 placeholderTextColor={'#fff'}
                 style={{ height: 50, width: 350, color: '#fff', paddingHorizontal: 10, borderBottomWidth: 2, borderBottomColor: '#fff' }}
                 onChangeText={email => setEmail(email)}
+                autoCapitalize={'none'}
                 // value={email}
               />
 
@@ -168,6 +172,7 @@ export const RegisterUser = props => {
                 placeholderTextColor={'#fff'}
                 style={{ height: 50, width: 350, color: '#fff', paddingHorizontal: 10, borderBottomWidth: 2, borderBottomColor: '#fff' }}
                 onChangeText={username => setUsername(username)}
+                autoCapitalize={'none'}
                 // value={username}
               />
 
@@ -177,6 +182,7 @@ export const RegisterUser = props => {
                 style={{ height: 50, width: 350, color: '#fff', paddingHorizontal: 10, borderBottomWidth: 2, borderBottomColor: '#fff' }}
                 onChangeText={password => setPassword(password)}
                 secureTextEntry={true}
+                autoCapitalize={'none'}
                 // value={password}
               />
           </View>
@@ -192,15 +198,15 @@ export const RegisterUser = props => {
             />
           </View>
 
-          <Modal 
+          <Modal
             isVisible={modalVisible}
             onBackdropPress={() => setModalVisible(!modalVisible)}
             onBackButtonPress={() => setModalVisible(!modalVisible)}
             backdropOpacity={0.4}
           >
-            <TouchableOpacity 
-              style={{ backgroundColor: '#fff', height: 60, width: 200, 
-                position: 'absolute', right: 15, top: 40, alignItems: 'center', 
+            <TouchableOpacity
+              style={{ backgroundColor: '#fff', height: 60, width: 200,
+                position: 'absolute', right: 15, top: 40, alignItems: 'center',
                 justifyContent: 'center', borderRadius: 20,
               }}
               onPress={() => {

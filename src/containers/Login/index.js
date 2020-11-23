@@ -15,28 +15,19 @@ export const Login = props => {
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const validateEmail = (email) => {
-    let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
-  };
-
   const CheckTextInputIsEmptyOrNot = () => {
       if (password === '' || username === '') {
           Toast.show(`Please fill in all the fields`, Toast.LONG);
       }
       else {
-          if (!validateEmail(username)) {
-              Toast.show(`Invalid Email`, Toast.LONG);
-          } else {
-              _login();
-          }
+          _login();
       }
   };
 
   const _login = () => {
     setLoading(true);
     const data = {
-      usernameEmail: username, 
+      usernameEmail: username,
       password: password
     };
 
@@ -55,7 +46,7 @@ export const Login = props => {
         }else if(response.status === 200 &&  response.data.userLogged) { // si todo esta bien
           AsyncStorage.setItem('userId', response.data._id)
           props.navigation.navigate('Home')
-          
+
         }
         setLoading(false);
     })
@@ -73,11 +64,11 @@ export const Login = props => {
   return(
     <View style={styles.container}>
       {
-        loading && 
+        loading &&
         <View style={styles.container}>
           <Spinner isVisible={loading} size={50} type={'ChasingDots'} color={'#0484a4'}/>
         </View>
-        
+
       }
 
       {
@@ -89,7 +80,7 @@ export const Login = props => {
               source={require('./../../assets/images/logo3.png')}
               resizeMode={'contain'}
             />
-            
+
             <Icon
               name={'menu'}
               type={'material-community'}
@@ -100,7 +91,7 @@ export const Login = props => {
                 setModalVisible(!modalVisible)
               }}
             />
-            
+
           </View>
 
           <View style={styles.textInputContainer}>
@@ -109,6 +100,7 @@ export const Login = props => {
               // value={username}
               inputStyle={{color: '#fff'}}
               onChangeText={username => setUsername(username)}
+              autoCapitalize={'none'}
               leftIcon={
                 <Icon
                   name='email'
@@ -124,6 +116,7 @@ export const Login = props => {
               // value={password}
               inputStyle={{color: '#fff'}}
               onChangeText={password => setPassword(password)}
+              autoCapitalize={'none'}
               secureTextEntry={true}
               leftIcon={
                 <Icon
@@ -147,15 +140,15 @@ export const Login = props => {
             />
           </View>
 
-          <Modal 
+          <Modal
             isVisible={modalVisible}
             onBackdropPress={() => setModalVisible(!modalVisible)}
             onBackButtonPress={() => setModalVisible(!modalVisible)}
             backdropOpacity={0.4}
           >
-            <TouchableOpacity 
-              style={{ backgroundColor: '#fff', height: 60, width: 200, 
-                position: 'absolute', right: 15, top: 40, alignItems: 'center', 
+            <TouchableOpacity
+              style={{ backgroundColor: '#fff', height: 60, width: 200,
+                position: 'absolute', right: 15, top: 40, alignItems: 'center',
                 justifyContent: 'center', borderRadius: 20,
               }}
               onPress={() => {

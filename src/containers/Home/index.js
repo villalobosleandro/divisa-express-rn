@@ -52,7 +52,7 @@ export const Home = props => {
         },
     })
     .then(response => {
-        console.log('responseee ', response.data.userLoggedOut);
+        // console.log('responseee ', response.data.userLoggedOut);
         if(response.data.userLoggedOut) {
           AsyncStorage.removeItem('userId');
           setLoading(false);
@@ -72,13 +72,13 @@ export const Home = props => {
     <View style={{flex: 1, backgroundColor: '#142444', alignItems: 'center', justifyContent: 'center', width: '100%'}}>
 
       {
-        loading && 
+        loading &&
         <Spinner isVisible={loading} size={50} type={'ChasingDots'} color={'#0484a4'}/>
       }
 
       {
         !loading &&
-        <View style={{flex: 1, backgroundColor: '#142444', alignItems: 'center', justifyContent: 'center', width: '100%'}}> 
+        <View style={{flex: 1, backgroundColor: '#142444', alignItems: 'center', justifyContent: 'center', width: '100%'}}>
           <Header
             hideIcon={true}
           />
@@ -125,7 +125,7 @@ export const Home = props => {
 
           </View>
 
-          <View style={{flex: 2, alignSelf: 'stretch', alignItems: 'center', justifyContent: 'flex-end', paddingBottom: 10}}> 
+          <View style={{flex: 2, alignSelf: 'stretch', alignItems: 'center', justifyContent: 'flex-end', paddingBottom: 10}}>
             <Button
               title="CERRAR SESSION"
               containerStyle={{width: 200}}

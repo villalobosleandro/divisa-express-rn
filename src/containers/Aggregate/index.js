@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, Image, TextInput } from 'react-native';
+import { View, Text, Image, TextInput, KeyboardAvoidingView } from 'react-native';
 import { Icon, Button, Input } from 'react-native-elements';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -16,7 +16,8 @@ export const Aggregate = props => {
   const [number, setNumber] = useState('');
   const [govIdType, setGovIdType] = useState('cedula');
   const [userId, setUserId] = useState('');
-  const [language, setLenguage] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
 
   useEffect(() => {
     _searchUserId()
@@ -27,37 +28,48 @@ export const Aggregate = props => {
       let userId = await AsyncStorage.getItem('userId');
       setUserId(userId);
     } catch (e) {}
-  }
+  };
 
   const _createRegister = () => {
     setLoading(true);
     const data = {
-      userId: userId,
-      fullName: fullName,
-      govId: govId,
-      number: number,
-      govIdType: govIdType
+        userId: userId,
+        fullName: fullName,
+        govId: govId,
+        number: number,
+        govIdType: govIdType,
+        phone: phone,
+        email: email
     };
-
-    console.log('dataaaa ', data);
 
     axios({
         method: 'put',
         timeout: 1000,
-        url: 'http://web.dev10.codecraftdev.com/api/v1/accountRegister',
+        url: 'http://web.dev10.codecraftdev.com/api/v1/registerAccount',
         data: data,
         headers: {
             'Content-Type': 'application/json'
         },
     })
     .then(response => {
-        console.log('responseee ', response.data);
+        // console.log('responseee ', response.data);
+        // if(response.data.bankAccountCreated) {
+        //
+        //
+        // }
+        Toast.show(`Cuenta creada satisfactoriamente`);
+        setEmail('');
+        setPhone('');
+        setFullName('');
+        setGovId('');
+        setGovIdType('cedula');
+        setNumber('');
         setLoading(false);
     })
     .catch(error => {
         console.log('error ', error);
         setLoading(false);
-        Toast.show(`Error ${error}`, Toast.LONG);
+        Toast.show(`Error Vuelve a intentar`, Toast.LONG);
     })
   };
 
@@ -72,21 +84,19 @@ export const Aggregate = props => {
       case 'pasaporte':
         return 7;
     }
-  }
-
-  // console.log('agegate ', props);
+  };
 
   return(
     <View style={{alignItems: 'center', justifyContent: 'center', flex: 1, backgroundColor: '#142444'}}>
 
       {
-        loading && 
+        loading &&
         <Spinner isVisible={loading} size={50} type={'ChasingDots'} color={'#0484a4'}/>
       }
 
       {
         !loading &&
-        <View>
+        <KeyboardAvoidingView>
           <Header
             navigation={props.navigation}
           />
@@ -115,15 +125,37 @@ export const Aggregate = props => {
                 style={{ height: 50, borderColor: '#0484a4', borderWidth: 3, borderRadius: 20, color: '#fff', paddingHorizontal: 10 }}
                 onChangeText={number => setNumber(number)}
                 keyboardType={'numeric'}
-                
+                autoCapitalize={'none'}
+
               />
             </View>
-            
+
+              <View style={{alignSelf: 'stretch', paddingHorizontal: 10}}>
+                  <Text style={{color: '#fff',  paddingVertical: 5, fontWeight: 'bold'}}>Numero de telefono:</Text>
+                  <TextInput
+                      style={{ height: 50, borderColor: '#0484a4', borderWidth: 3, borderRadius: 20, color: '#fff', paddingHorizontal: 10 }}
+                      onChangeText={phone => setPhone(phone)}
+                      keyboardType={'numeric'}
+                      autoCapitalize={'none'}
+
+                  />
+              </View>
+
+              <View style={{alignSelf: 'stretch', paddingHorizontal: 10}}>
+                  <Text style={{color: '#fff',  paddingVertical: 5, fontWeight: 'bold'}}>Email:</Text>
+                  <TextInput
+                      style={{ height: 50, borderColor: '#0484a4', borderWidth: 3, borderRadius: 20, color: '#fff', paddingHorizontal: 10 }}
+                      onChangeText={email => setEmail(email)}
+                      autoCapitalize={'none'}
+                  />
+              </View>
+
             <View style={{alignSelf: 'stretch', paddingHorizontal: 10}}>
               <Text style={{color: '#fff',  paddingVertical: 5, fontWeight: 'bold'}}>Nombre y Apellido:</Text>
               <TextInput
                 style={{ height: 50, borderColor: '#0484a4', borderWidth: 3, borderRadius: 20, color: '#fff', paddingHorizontal: 10 }}
                 onChangeText={fullName => setFullName(fullName)}
+                autoCapitalize={'none'}
               />
             </View>
 
@@ -145,14 +177,15 @@ export const Aggregate = props => {
                   onChangeText={govId => setGovId(govId)}
                   keyboardType={'numeric'}
                   maxLength={_validateNumberOfIdentity()}
-                  
+                  autoCapitalize={'none'}
+
                 />
               </View>
-              
+
             </View>
           </View>
 
-          <View style={{flex: 2, alignSelf: 'stretch', alignItems: 'center', justifyContent: 'flex-end', paddingBottom: 10}}> 
+          <View style={{flex: 2, alignSelf: 'stretch', alignItems: 'center', justifyContent: 'flex-end', paddingBottom: 10}}>
             <Button
               title="G U A R D A R"
               containerStyle={{width: 200}}
@@ -160,7 +193,7 @@ export const Aggregate = props => {
               onPress={() => _createRegister()}
             />
           </View>
-        </View>
+        </KeyboardAvoidingView>
       }
     </View>
   )
