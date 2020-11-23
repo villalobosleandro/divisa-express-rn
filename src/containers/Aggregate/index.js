@@ -44,7 +44,7 @@ export const Aggregate = props => {
 
     axios({
         method: 'put',
-        timeout: 1000,
+        timeout: 10000,
         url: 'http://web.dev10.codecraftdev.com/api/v1/registerAccount',
         data: data,
         headers: {
