@@ -41,7 +41,7 @@ export const Sending = props => {
 
     axios({
       method: 'put',
-      timeout: 1000,
+      timeout: 10000,
       url: 'http://web.dev10.codecraftdev.com/api/v1/bankAccountByUserId',
       data: data,
       headers: {
@@ -99,7 +99,7 @@ export const Sending = props => {
 
     axios({
       method: 'put',
-      timeout: 1000,
+      timeout: 10000,
       url: 'http://web.dev10.codecraftdev.com/api/v1/sendTransaction',
       data: data,
       headers: {
